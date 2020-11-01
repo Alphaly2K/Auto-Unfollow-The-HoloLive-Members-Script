@@ -2,8 +2,7 @@
 ## Discription
 **Because of some reasons, we should unfollow the hololive members manually.But this script can help you to unfollow them quickly.**
 ## Environment
-### Java
-**`version` >= 8**
+### GO
 ## Usage
 1.Download the class or the jar from the release.
 
