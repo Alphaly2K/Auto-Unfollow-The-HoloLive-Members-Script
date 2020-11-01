@@ -4,11 +4,10 @@
 ## Environment
 ### GO
 ## Usage
-1.Download the class or the jar from the release.
+1.Download the go from the release.
 
-2.Use `java <the directory>/autounfollow.class` or open the jar file.
+2.Use `go run <the directory>/main.go`.
 
-3.Enter the information it needs and click "Launch".
-
-4.When it report "Succeeded!",you have already unfollowed all of the hololive members.
+3.Enter the information it needs.
 ## API Supports by BiliBili API
+## 我的GO水平太菜了，如果你看着源码有不顺眼的地方，就尽管在issues里面提出来。。。
