@@ -6,7 +6,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 )
 
@@ -15,7 +14,6 @@ func main() {
 	fmt.Println("欢迎来到hololive一键取关脚本")
 	fmt.Println("Version:1.0-final")
 	fmt.Println("Yagoo去死，COVER倒闭！")
-
 	var sessdata string
 loop1:
 	for
@@ -55,6 +53,11 @@ loop1:
 		body, _ := ioutil.ReadAll(response.Body)
 		bodystr := string(body)
 		namevalue := gjson.Get(bodystr, "data.name")
+		codevalue := gjson.Get(bodystr, "code")
+		if codevalue.String() != "0" {
+			fmt.Println("未知错误,请重新检查您的SESSDATA")
+			goto loop1
+		}
 	loop2:
 		for
 		{
@@ -74,9 +77,9 @@ loop1:
 	loop3:
 		for
 		{
-			fmt.Println("请输入您的csrf信息：")
+			fmt.Println("请输入您的bili_jct信息：")
 			fmt.Scanln(&csrf)
-			var csrflen int = strings.Count(csrf, "") - 1
+			var csrflen = strings.Count(csrf, "") - 1
 			if csrflen != 32 {
 				fmt.Println("输入错误")
 				goto loop3
@@ -95,11 +98,22 @@ loop1:
 			request2.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 			request2.Header.Set("user-agent", "FUCKCOCO/123.123(FUCKCOCO@ANTIHOLO.ORG)")
 			request2.Header.Set("Cookie", "SESSDATA="+sessdata)
-			client2.Do(request2)
+			response2, _ := client2.Do(request2)
 			request2.Body.Close()
+			if response2.StatusCode == 200 {
+				body1, _ := ioutil.ReadAll(response2.Body)
+				bodystr1 := string(body1)
+				codevalue1 := gjson.Get(bodystr1, "code")
+				if codevalue1.String() != "0" {
+					fmt.Println("请检查您的bili_jct信息，然后重试")
+					goto loop3
+				}
+				fmt.Println(bodystr1)
+			}
 		}
-		fmt.Println("程序运行完毕，请自行查看效果。")
-		os.Exit(0)
+		fmt.Println("取关完毕！")
+		fmt.Println("HOLOLIVE,FUCK U AND NEVER COME BACK!")
+		fmt.Scanln()
 	} else {
 		goto loop1
 	}
